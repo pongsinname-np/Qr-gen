@@ -1,65 +1,101 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <meta charset="UTF-8">
+    <title>QR Code Generator</title>
 
-<style>
-body{
-    font-family: Arial,sans-serif;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    text-align: center;
-}
-input,button{
-    padding:10px;
-    font-size:16px;
-}
-input{
-    width:70%;
-}
-#qrcode{
-    margin-top:20px;
-    display:flex;
-    justify-content:center;
-}
-</style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        input {
+            width: 500px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        #qrcode {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .code-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            word-break: break-all;
+        }
+    </style>
 </head>
-
 <body>
 
-<h1>QR Code Generator</h1>
+    <h2>QR Code Generator</h2>
 
-<p>กรอกข้อความ หรือลิงก์ที่ต้องการสร้าง QR Code</p>
+    <input
+        type="text"
+        id="qrInput"
+        placeholder="Enter value"
+    >
 
-<input type="text" id="text" placeholder="https://example.com">
+    <button onclick="generateQR()">
+        Generate QR
+    </button>
 
-<button onclick="generateQR()">Generate QR</button>
+    <div id="qrcode"></div>
 
-<div id="qrcode"></div>
+    <div
+        id="codeText"
+        class="code-text">
+    </div>
 
-<script>
-function generateQR() {
-    const tElementById('qrcode');
-    div.innerHTML = '';
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    const txt = document.getElementById('text').value;
+    <script>
 
-    if (!txt) {
-        alert('กรุณากรอกข้อมูล');
-        return;
-    }
+        let qrCodeInstance = null;
 
-    new QRCode(div, {
-        text: txt,
-        width: 256,
-        height: 256
-    });
-}
-</script>
+        function generateQR() {
+
+            const value =
+                document.getElementById("qrInput")
+                .value
+                .trim();
+
+            if (!value) {
+                alert("Please enter value");
+                return;
+            }
+
+            document.getElementById("qrcode").innerHTML = "";
+
+            qrCodeInstance = new QRCode(
+                document.getElementById("qrcode"),
+                {
+                    text: value,
+                    width: 300,
+                    height: 300,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                }
+            );
+
+            document.getElementById("codeText").innerText = value;
+        }
+
+    </script>
 
 </body>
 </html>
