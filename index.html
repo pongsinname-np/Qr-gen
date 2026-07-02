@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content=".0" />
-  <title>QR Code Generator V1.4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Generator V1.5</title>
+
+  https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.jsscript>
 
   <style>
     * {
@@ -182,10 +184,10 @@
   <div class="container">
     <h1>QR Code Generator</h1>
 
-    <div class="version">Remark: V1.4</div>
+    <div class="version">Remark: V1.5</div>
 
     <div class="remark-box">
-      <strong>Logic V1.4:</strong><br />
+      <strong>Logic V1.5:</strong><br />
       - SAP Article, Batch Original No และ Serial No รองรับตัวอักษรอังกฤษ A-Z และตัวเลข 0-9<br />
       - SAP Article, Vendor Code, EAN13 Check Digit, Batch Original No และ Selling Price เติม 0 ด้านหน้าให้ครบ digit<br />
       - Serial No เติม 0 ด้านหลัง เพื่อให้ input อยู่ด้านหน้า<br />
@@ -382,8 +384,6 @@
     <div id="qrcode"></div>
   </div>
 
-  https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.jsscript>
-
   <script>
     let qrCodeInstance = null;
 
@@ -479,15 +479,15 @@
     }
 
     function clearPreview() {
-      for (const field of fieldConfig) {
+      fieldConfig.forEach(function (field) {
         document.getElementById(field.previewId).innerText = "-";
-      }
+      });
     }
 
     function buildFinalQRValue() {
       let finalValue = "";
 
-      for (const field of fieldConfig) {
+      fieldConfig.forEach(function (field) {
         const input = document.getElementById(field.id);
         const rawValue = input.value.trim().toUpperCase();
 
@@ -500,7 +500,7 @@
         const paddedValue = padValue(rawValue, field);
         document.getElementById(field.previewId).innerText = paddedValue;
         finalValue += paddedValue;
-      }
+      });
 
       return finalValue;
     }
@@ -546,9 +546,9 @@
     }
 
     function clearForm() {
-      for (const field of fieldConfig) {
+      fieldConfig.forEach(function (field) {
         document.getElementById(field.id).value = "";
-      }
+      });
 
       document.getElementById("qrcode").innerHTML = "";
       document.getElementById("finalValue").innerText = "-";
