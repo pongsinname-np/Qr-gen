@@ -320,7 +320,7 @@
     <div id="qrcode"></div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.jsscript>
 
   <script>
     let qrCodeInstance = null;
@@ -429,7 +429,7 @@
           correctLevel: QRCode.CorrectLevel.H
         });
 
-        message.innerHTML = `<div class="success">Generate QRdiv>`;
+        message.innerHTML = `<div class="success">Generate QR Code completed</div>`;
       } catch (error) {
         document.getElementById("finalValue").innerText = "-";
         document.getElementById("totalLength").innerText = "0 / 60";
