@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QR Code Generator V1.4</title>
+  <title>QR Code Generator V1.5</title>
 
   <style>
     body {
@@ -164,12 +164,12 @@
 <body>
   <div class="container">
     <h1>QR Code Generator</h1>
-    <div class="version">Remark: V1.3</div>
+    <div class="version">Remark: V1.4</div>
 
     <div class="remark-box">
-      <strong>Logic V1.3:</strong>
-      ระบบจะรับค่าจากแต่ละฟิลด์ ถ้าไม่กรอกหรือกรอกไม่ครบ ระบบจะเติมเลข 0 ด้านซ้ายให้ครบจำนวน digit
-      จากนั้นนำค่าทุกฟิลด์มาต่อกันและ Generate QR Code
+      <strong>Logic V1.4:</strong>
+      ระบบจะรับค่า A-Z, a-z, 0-9 จากแต่ละฟิลด์ ถ้าไม่กรอกหรือกรอกไม่ครบ ระบบจะเติมเลข 0 ให้ครบจำนวน digit
+      โดย Serial No จะเติม 0 ด้านหลัง ส่วนฟิลด์อื่นจะเติม 0 ด้านซ้าย จากนั้นนำค่าทุกฟิลด์มาต่อกันและ Generate QR Code
     </div>
 
     <table>
@@ -362,11 +362,15 @@
       input.value = input.value.replace(/[^A-Za-z0-9]/g, "");
     }
 
-    function padValue(value, length) {
+    function padValue(value, length, fieldId) {
       const cleanValue = value.trim();
 
       if (cleanValue.length === 0) {
         return "0".repeat(length);
+      }
+
+      if (fieldId === "serialNo") {
+        return cleanValue.padEnd(length, "0");
       }
 
       return cleanValue.padStart(length, "0");
@@ -397,7 +401,7 @@
           throw new Error(errorMessage);
         }
 
-        finalValue += padValue(rawValue, field.length);
+        finalValue += padValue(rawValue, field.length, field.id);
       }
 
       return finalValue;
