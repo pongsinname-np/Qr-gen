@@ -403,39 +403,47 @@
       return finalValue;
     }
 
-    function generateQR() {
-      const message = document.getElementById("message");
-      const qrContainer = document.getElementById("qrcode");
+   function generateQR() {
 
-      message.innerHTML = "";
-      qrContainer.innerHTML = "";
+  if (typeof QRCode === "undefined") {
+    document.getElementById("message").innerHTML =
+      '<div class="error">QRCode library not loaded</div>';
+    return;
+  }
 
-      try {
-        const finalValue = buildFinalQRValue();
+  const message = document.getElementById("message");
+  const qrContainer = document.getElementById("qrcode");
 
-        if (finalValue.length !== 60) {
-          throw new Error(`Final QR Value must be 60 digits, current length is ${finalValue.length}`);
-        }
+  message.innerHTML = "";
+  qrContainer.innerHTML = "";
 
-        document.getElementById("finalValue").innerText = finalValue;
-        document.getElementById("totalLength").innerText = `${finalValue.length} / 60`;
+  try {
 
-        qrCodeInstance = new QRCode(qrContainer, {
-          text: finalValue,
-          width: 300,
-          height: 300,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
+    const finalValue = buildFinalQRValue();
 
-        message.innerHTML = `<div class="success">Generate QR Code completed</div>`;
-      } catch (error) {
-        document.getElementById("finalValue").innerText = "-";
-        document.getElementById("totalLength").innerText = "0 / 60";
-        message.innerHTML = `<div class="error">${error.message}</div>`;
-      }
-    }
+    document.getElementById("finalValue").innerText = finalValue;
+    document.getElementById("totalLength").innerText =
+      `${finalValue.length} / 60`;
+
+    new QRCode(qrContainer, {
+      text: finalValue,
+      width: 300,
+      height: 300,
+      colorDark: "#000000",
+      colorLight: "#FFFFFF",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    message.innerHTML =
+      '<div class="success">Generate QR Code completed</div>';
+
+  } catch (error) {
+
+    document.getElementById("message").innerHTML =
+      `<div class="error">${error.message}</div>`;
+  }
+}
+``
 
     function clearForm() {
       for (const field of fieldConfig) {
