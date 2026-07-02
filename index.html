@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body{
+    font-family: Arial,sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+}
+input,button{
+    padding:10px;
+    font-size:16px;
+}
+input{
+    width:70%;
+}
+#qrcode{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+}
+</style>
+</head>
+
+<body>
+
+<h1>QR Code Generator</h1>
+
+<p>กรอกข้อความ หรือลิงก์ที่ต้องการสร้าง QR Code</p>
+
+<input type="text" id="text" placeholder="https://example.com">
+
+<button onclick="generateQR()">Generate QR</button>
+
+<div id="qrcode"></div>
+
+<script>
+function generateQR() {
+    const tElementById('qrcode');
+    div.innerHTML = '';
+
+    const txt = document.getElementById('text').value;
+
+    if (!txt) {
+        alert('กรุณากรอกข้อมูล');
+        return;
+    }
+
+    new QRCode(div, {
+        text: txt,
+        width: 256,
+        height: 256
+    });
+}
+</script>
+
+</body>
+</html>
