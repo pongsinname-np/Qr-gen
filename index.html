@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QR Code Generator V1.5</title>
+  <title>QR Code Generator V1.4</title>
 
   <style>
     body {
@@ -166,60 +166,8 @@
     <h1>QR Code Generator</h1>
     <div class="version">Remark: V1.4</div>
 
-    <div class="remark-box">
-      <strong>Logic V1.4:</strong>
-      ระบบจะรับค่า A-Z, a-z, 0-9 จากแต่ละฟิลด์ ถ้าไม่กรอกหรือกรอกไม่ครบ ระบบจะเติมเลข 0 ให้ครบจำนวน digit
-      โดย Serial No จะเติม 0 ด้านหลัง ส่วนฟิลด์อื่นจะเติม 0 ด้านซ้าย จากนั้นนำค่าทุกฟิลด์มาต่อกันและ Generate QR Code
-    </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Number of Digits</th>
-          <th>Remark</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>11</td>
-          <td>11</td>
-          <td>SAP Article</td>
-        </tr>
-        <tr>
-          <td>12</td>
-          <td>16</td>
-          <td>5</td>
-          <td>Vendor Code</td>
-        </tr>
-        <tr>
-          <td>17</td>
-          <td>17</td>
-          <td>1</td>
-          <td>EAN13 Check Digit</td>
-        </tr>
-        <tr>
-          <td>18</td>
-          <td>27</td>
-          <td>10</td>
-          <td>Batch Original No</td>
-        </tr>
-        <tr>
-          <td>28</td>
-          <td>42</td>
-          <td>15</td>
-          <td>Selling Price</td>
-        </tr>
-        <tr>
-          <td>43</td>
-          <td>60</td>
-          <td>18</td>
-          <td>Serial No</td>
-        </tr>
-      </tbody>
-    </table>
+   
 
     <div class="input-row">
       <label for="sapArticle">SAP Article</label>
@@ -312,10 +260,7 @@
       <div id="finalValue">-</div>
     </div>
 
-    <div class="result-box">
-      <div class="result-label">Total Length:</div>
-      <div id="totalLength">0 / 60</div>
-    </div>
+
 
     <div id="qrcode"></div>
   </div>
