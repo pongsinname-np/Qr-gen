@@ -164,10 +164,10 @@
 <body>
   <div class="container">
     <h1>QR Code Generator</h1>
-    <div class="version">Remark: V1.1</div>
+    <div class="version">Remark: V1.3</div>
 
     <div class="remark-box">
-      <strong>Logic V1.1:</strong>
+      <strong>Logic V1.3:</strong>
       ระบบจะรับค่าจากแต่ละฟิลด์ ถ้าไม่กรอกหรือกรอกไม่ครบ ระบบจะเติมเลข 0 ด้านซ้ายให้ครบจำนวน digit
       จากนั้นนำค่าทุกฟิลด์มาต่อกันและ Generate QR Code
     </div>
@@ -226,9 +226,9 @@
       <input
         type="text"
         id="sapArticle"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="11"
-        placeholder="11 digits"
+        placeholder="11 characters"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">11 digits</div>
@@ -239,9 +239,9 @@
       <input
         type="text"
         id="vendorCode"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="5"
-        placeholder="5 digits"
+        placeholder="5 characters"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">5 digits</div>
@@ -252,9 +252,9 @@
       <input
         type="text"
         id="eanCheckDigit"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="1"
-        placeholder="1 digit"
+        placeholder="1 character"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">1 digit</div>
@@ -265,9 +265,9 @@
       <input
         type="text"
         id="batchOriginalNo"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="10"
-        placeholder="10 digits"
+        placeholder="10 characters"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">10 digits</div>
@@ -278,9 +278,9 @@
       <input
         type="text"
         id="sellingPrice"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="15"
-        placeholder="15 digits"
+        placeholder="15 characters"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">15 digits</div>
@@ -291,9 +291,9 @@
       <input
         type="text"
         id="serialNo"
-        inputmode="numeric"
+        inputmode="text"
         maxlength="18"
-        placeholder="18 digits"
+        placeholder="18 characters"
         oninput="allowOnlyDigits(this)"
       />
       <div class="digit-info">18 digits</div>
@@ -320,11 +320,9 @@
     <div id="qrcode"></div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script>
-
+  <script>
     let qrCodeInstance = null;
 
     const fieldConfig = [
@@ -361,7 +359,7 @@
     ];
 
     function allowOnlyDigits(input) {
-      input.value = input.value.replace(/\D/g, "");
+      input.value = input.value.replace(/[^A-Za-z0-9]/g, "");
     }
 
     function padValue(value, length) {
@@ -376,11 +374,11 @@
 
     function validateInput(value, length, label) {
       if (value.length > length) {
-        return `${label} must not exceed ${length} digits`;
+        return `${label} must not exceed ${length} characters`;
       }
 
-      if (!/^\d*$/.test(value)) {
-        return `${label} allows numeric digits only`;
+      if (!/^[A-Za-z0-9]*$/.test(value)) {
+        return `${label} allows letters and digits only`;
       }
 
       return "";
@@ -405,47 +403,43 @@
       return finalValue;
     }
 
-   function generateQR() {
+    function generateQR() {
+      const message = document.getElementById("message");
+      const qrContainer = document.getElementById("qrcode");
 
-  if (typeof QRCode === "undefined") {
-    document.getElementById("message").innerHTML =
-      '<div class="error">QRCode library not loaded</div>';
-    return;
-  }
+      message.innerHTML = "";
+      qrContainer.innerHTML = "";
 
-  const message = document.getElementById("message");
-  const qrContainer = document.getElementById("qrcode");
+      try {
+        if (typeof QRCode === "undefined") {
+          throw new Error("QRCode library not loaded");
+        }
 
-  message.innerHTML = "";
-  qrContainer.innerHTML = "";
+        const finalValue = buildFinalQRValue();
 
-  try {
+        if (finalValue.length !== 60) {
+          throw new Error(`Final QR Value must be 60 characters, current length is ${finalValue.length}`);
+        }
 
-    const finalValue = buildFinalQRValue();
+        document.getElementById("finalValue").innerText = finalValue;
+        document.getElementById("totalLength").innerText = `${finalValue.length} / 60`;
 
-    document.getElementById("finalValue").innerText = finalValue;
-    document.getElementById("totalLength").innerText =
-      `${finalValue.length} / 60`;
+        qrCodeInstance = new QRCode(qrContainer, {
+          text: finalValue,
+          width: 300,
+          height: 300,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
 
-    new QRCode(qrContainer, {
-      text: finalValue,
-      width: 300,
-      height: 300,
-      colorDark: "#000000",
-      colorLight: "#FFFFFF",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-
-    message.innerHTML =
-      '<div class="success">Generate QR Code completed</div>';
-
-  } catch (error) {
-
-    document.getElementById("message").innerHTML =
-      `<div class="error">${error.message}</div>`;
-  }
-}
-``
+        message.innerHTML = `<div class="success">Generate QR Code completed</div>`;
+      } catch (error) {
+        document.getElementById("finalValue").innerText = "-";
+        document.getElementById("totalLength").innerText = "0 / 60";
+        message.innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
 
     function clearForm() {
       for (const field of fieldConfig) {
